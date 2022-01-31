@@ -6,8 +6,8 @@ const accessoryController = require('./controllers/accessoryController');
 const router = express.Router();
 let authController = require('./controllers/authController')
 
+router.use(homeController);
 router.use('/cube', cubeController);
-router.use('/', homeController);
 router.use('/about', homeController);
 router.use('/accessory', accessoryController);
 router.use(authController)
