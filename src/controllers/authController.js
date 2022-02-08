@@ -32,6 +32,7 @@ router.post('/login', async (req, res)=>{
     }
 
     let token = await authService.createToken(user);
+    res.cookie('app_token',token,{httpOnly: true,})
      
     console.log(token);
 
