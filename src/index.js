@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const {auth} = require('./middlewares/authMiddleware');
 const app = express();
 
+app.use(auth); //See if it is buggy
 require('./config/handlebars')(app);
 app.use(express.urlencoded({
     extended: true
@@ -15,8 +16,6 @@ app.use(express.urlencoded({
 app.use(express.static(path.resolve(__dirname, './public')));
 app.use(cookieParser())
 app.use(routes);
-app.use(auth); //See if it is buggy
-
 
 initDatabase(config.DB_CONNECTION_STRING).then(() => {
     app.listen(config.PORT, console.log.bind(console, `Application is running on http://localhost:${config.PORT}`));
