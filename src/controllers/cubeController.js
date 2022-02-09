@@ -2,9 +2,10 @@ const router = require('express').Router();
 
 const cubeService = require('../services/cubeService');
 const cubeAccessoryController = require('./cubeAccessoryController');
-let { isAuth } = require('../middlewares/authMiddleware');
 
 const getCreateCubePage = (req, res) => {
+    // let cubes = cubeService.getAll();
+    // console.log(cubes);
     res.render('cube/create');
 };
 
@@ -23,19 +24,9 @@ const cubeDetails = async (req, res) => {
     res.render('cube/details', { ...cube });
 };
 
-const getEditCubePage = (req,res)=>{
-    res.render('cube/edit');
-}
-
-const getDeleteCubePage = (req, res) =>{
-    res.render('cube/delete');
-}
-
-router.get('/create',isAuth, getCreateCubePage);
-router.post('/create',isAuth, createCube);
+router.get('/create', getCreateCubePage);
+router.post('/create', createCube);
 router.get('/:cubeId', cubeDetails);
 router.use('/:cubeId/accessory', cubeAccessoryController);
-router.get('/:cubeId/edit',isAuth, getEditCubePage);
-router.get('/:cubeId/delete',isAuth,getDeleteCubePage);
 
 module.exports = router;
