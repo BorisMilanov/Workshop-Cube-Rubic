@@ -13,8 +13,8 @@ app.use(express.urlencoded({
 }));
 app.use(express.static(path.resolve(__dirname, './public')));
 app.use(cookieParser())
-app.use(routes);
 app.use(auth); //See if it is buggy
+app.use(routes);
 
 
 initDatabase(config.DB_CONNECTION_STRING).then(() => {
