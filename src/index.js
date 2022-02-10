@@ -4,7 +4,7 @@ const routes = require('./routes');
 const config = require('./config/config.json')[process.env.NODE_ENV];
 const initDatabase = require('./config/database');
 const cookieParser = require('cookie-parser')
-
+const { auth } = require('./middlewares/authMiddleware');
 const app = express();
 
 require('./config/handlebars')(app);

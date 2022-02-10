@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const authService = require('../services/authService');
+const { TOKEN_COOKIE_NAME } = require('../constants');
 
 router.get('/register', (req, res) => {
     res.render('auth/register');
@@ -11,31 +12,39 @@ router.post('/register', async (req, res) => {
 
         await authService.register(username, password, repeatPassword);
 
-        res.redirect('/login')
-    } catch (err) {
-        res.status(400).send(err)
+        res.redirect('/login');
+    } catch (error) {
+        res.status(400).send(error);
     }
-
 });
 
 router.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
-router.post('/login', async (req, res)=>{
-    const {username, password} = req.body;
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
 
     let user = await authService.login(username, password);
 
-    if(!user){
+    if (!user) {
         return res.redirect('/404');
     }
-
+    
     let token = await authService.createToken(user);
-    res.cookie('app_token',token,{httpOnly: true,})
-     
-    console.log(token);
+    // authService.createToken(user, function(err, token) {
+    //     if(err) {
+
+    //     } else {
+    //         res.redirect('/');
+    //     }
+    // });
+
+    res.cookie(TOKEN_COOKIE_NAME, token, {
+        httpOnly: true,
+    });
 
     res.redirect('/');
 });
+
 module.exports = router;
