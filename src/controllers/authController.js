@@ -6,7 +6,7 @@ router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
     try {
         let { username, password, repeatPassword } = req.body;
 
@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
 
         res.redirect('/login');
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).render('auth/register', { error: error.message });
     }
 });
 
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
         return res.redirect('/404');
     }
-    
+
     let token = await authService.createToken(user);
     // authService.createToken(user, function(err, token) {
     //     if(err) {
@@ -44,6 +44,11 @@ router.post('/login', async (req, res) => {
         httpOnly: true,
     });
 
+    res.redirect('/');
+});
+
+router.get('/logout', (req, res) => {
+    res.clearCookie(TOKEN_COOKIE_NAME);
     res.redirect('/');
 });
 
