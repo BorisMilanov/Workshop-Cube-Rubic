@@ -33,12 +33,14 @@ userSchema.method('validatePassword', function (password) {
     return bcrypt.compare(password, this.password);
 });
 
-userSchema.virtual('resetPassword')
-    .set(function (v) {
+userSchema.virtual('repeatPassword')
+    .set(function(v) {
         if (v !== this.password) {
             throw new Error('Password missmatch');
         }
     });
+
+
 
 const User = mongoose.model('User', userSchema);
 
