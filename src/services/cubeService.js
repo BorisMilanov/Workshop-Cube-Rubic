@@ -13,7 +13,7 @@ const create = (name, description, imageUrl, difficulty, userId) => {
         difficulty,
         creator: userId,
     });
-
+     
     return cube.save();
 };
 
